@@ -18,36 +18,38 @@ See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) f
 1. Make an empty MySQL database and a read/write user 
 2. Open mysql.sql (using a common text editor such as WordPad)
 3. Select all and copy, then use it to run a query on the empty database (using a DB tool such as phpMyAdmin)
-4. In phpMyAdmin, open table `t_iotsettings` and update field `IS_AWSbuttonSN` to your IoT button serial number
+4. Open MySQL table `t_iotsettings` and update field `IS_AWSbuttonSN` to your IoT button serial number
 5. Using a text editor, open file "_settings.php" and update:  
   -- Host, Login, Password, DB Name, IoT Button Serial Number
-6. Copy PHP files to your site (e.g., upload via FTP)  
+6. Copy PHP files to your site (e.g., upload via FTP)
+7. Browse index.php to test - should be no errors, with message:  
+  -- "The AWS IoT Button has not been clicked today."
 
 - Amazon AWS
-1. Set up IoT Button in AWS, and connect it to local WiFi
+1. Set up IoT Button in AWS, and connect it to local WiFi  
 2. Edit the Python code so "PostingURL" points to your website
 3. Zip the Python file, and all of the folders into a single file
 4. Log into Amazon AWS
 5. Create IAM execution role for Lambda Basic Execution (you can use an exisiting Lambda Basic Execution role, if present)
 6. Create a new AWS Lambda function  
   -- Runtime: Python 3.6  
-  -- Choose existing role: Lambda Basic Execution (from above)
+  -- Choose existing role: Lambda Basic Execution (from above)  
   -- All other fields per your discretion
 7. Upload the function code  
   -- Code entry type: Upload a Zip file  
   -- Use the Zip from step 3 above  
-  -- (Important!) Handler: main_wwwexamplecom.handler
-  -- Click the Save button
+  -- (Important!) Handler: main_wwwexamplecom.handler  
+  -- Click the Save button  
 8. Configure a test event using the sample JSON:  
   -- e.g., "TestEventLiveSNsingle.json"  
-  -- change "IOTbtnSerialNum" to your button's S/N 
+  -- change "IoTbtnSerialNum" to your button's S/N 
 9. Run the test event, while also watching your PHP web page
 10. Check the results:  
   -- PHP Web page should report the click type and date/time  
   -- Lambda Execution Result (near bottom) should be "null"  
   -- If it fails, look for clues in the Execution Result  
   -- A fail here could be due to hosting restrictions (check web server logs for more clues)    
-11. When tests are successful, add you IoT button as a trigger:  
+11. When tests are successful, add your IoT button as a trigger:  
   -- From the "Add triggers" panel on the left side  
   -- Click "AWS IoT"  
   -- Go to the "Configure triggers" section below  
