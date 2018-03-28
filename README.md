@@ -7,7 +7,7 @@ Rev 0.9 (March 2018)
 ## DESCRIPTION
 Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT button to a PHP script via HTTP. Button click data is stored in MySQL, and displayed on a web page. Using jQuery, the display is updated without refreshing.
 
-- IoT_Button+WiFi --> AWS_Lambda --> _PHP/MySQL/HTML_ <-- jQuery
+- IoT_Button+WiFi --> AWS_Lambda --> **_PHP/MySQL/HTML_** <-- jQuery
 
 See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) for an illustration.
 
@@ -68,8 +68,8 @@ This is the physical device that will initiate the request. Before you can do an
 - If you have a button, and you've already set it up and installed the security keys, then you don't need to do it again.
 - If you have a button, but you have not set it up, then stop here and go do that. See "Getting Started with AWS IoT" at https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html
 - If you *do not* have a button, there are ways to simulate one. But you've got a button, don't you? Otherwise you probably wouldn't be looking at this code!
-3. Website that supports PHP and MySQL  
-  -- I have this working in two environments: a Windows 2012 Server (IIS) that's hosted on AWS EC2; and also a shared hosting site that runs on some flavor of Linux. So web server O/S is not important. 
+3. Website that supports PHP and MySQL (any web server O/S)  
+  -- NOTICE: The script polls every three seconds, so it can cause a spike in your web stats (i.e., an extra 20 pages per minute while the page is open). For testing, run this at a site where stats are not important.
 
 
 ## Let's Go  
