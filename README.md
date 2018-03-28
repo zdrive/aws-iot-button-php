@@ -12,14 +12,14 @@ Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT bu
 See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) for an illustration.
 
 ## Quick Start  
-See detailed instructions below.  
+(See detailed instructions below)  
 
 - PHP/MySQL
 1. Make an empty MySQL database and a read/write user 
 2. Open mysql.sql (using a common text editor such as WordPad)
 3. Select all and copy, then use it to run a query on the empty database (using a DB tool such as phpMyAdmin)
 4. In phpMyAdmin, open table `t_iotsettings` and update field `IS_AWSbuttonSN` to your IoT button serial number
-5. Using a text editor, open db.php and update:  
+5. Using a text editor, open file "_settings.php" and update:  
   -- Host, Login, Password, DB Name, IoT Button Serial Number
 6. Copy PHP files to your site (e.g., upload via FTP)  
 
@@ -57,17 +57,20 @@ See detailed instructions below.
 12. The moment of truth... Click your IoT button, while watching the PHP web page, and check the results:  
   -- PHP Web page should report the click type and date/time  
   -- View click data in database table `t_iotbuttontracker`  
-  -- A fail here could be due to IoT button setup. Look at "invoctaion count" in the Monitoring tab to verify
+  -- A fail here could be due to IoT button setup. Look at "Invocation count" in the function's Monitoring tab to verify  
 
 
 ## REQUIREMENTS
-1. Amazon AWS Account
-The heart of this system is Amazon Web services. There you can register your IoT button, and upload the Python code that responds to a button click. This demo can not be performed without an AWS account. If you need to set one up then be advised that the process includes account verification by Amazon, so it takes time to complete the set up.
-2. AWS IoT Button
-This is the physical device that will initiate the request. Before you can do anything with it, you'll need to register it in your AWS account, set it up with your WiFi and download security keys from your AWS account, then upload the keys to your button. 
-- If you have a button, and you've already set it up and installed the security keys, then you don't need to do it again.
-- If you have a button, but you have not set it up, then stop here and go do that. See "Getting Started with AWS IoT" at https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html
-- If you *do not* have a button, there are ways to simulate one. But you've got a button, don't you? Otherwise you probably wouldn't be looking at this code!
+1. Amazon AWS Account   
+The heart of this system is Amazon Web services. There you can register your IoT button, and upload the Python code that responds to a button click.  
+  -- This demo can not be performed without an AWS account.  
+  -- If you need to set up an AWS account, then be advised that the process includes account verification by Amazon, so it takes time to complete the set up.  
+  -- URL: https://aws.amazon.com/  
+2. AWS IoT Button (or simulator)  
+This is the physical device that will initiate the request. Before you can do anything with it, you'll need to register it in your AWS account, set it up with your WiFi and download security keys from your AWS account, then upload the keys to your button.  
+  -- If you have a button, and you've already set it up and installed the security keys, then you don't need to do it again.  
+  -- If you have a button, but you have not set it up, then stop here and go do that. See "Getting Started with AWS IoT" at https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
+  -- If you *do not* have a button, there are ways to simulate one. But you've got a button, don't you? Otherwise you probably wouldn't be looking at this code!
 3. Website that supports PHP and MySQL (any web server O/S)  
   -- NOTICE: The script polls every three seconds, so it can cause a spike in your web stats (i.e., an extra 20 pages per minute while the page is open). For testing, run this at a site where stats are not important.
 
@@ -93,18 +96,21 @@ How to compile and use (detailed instructions)
 
 4. In phpMyAdmin, open table `t_iotsettings` and verify field `IS_AWSbuttonSN` has your IoT button serial number (update as needed)
 
-5. Using a text editor, open db.php and update:  
+5. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
 
-6. Copy PHP files to your site (e.g., upload via FTP)  
+6. Using a text editor, open index.php and update the interval:  
+  -- Line 35: `setInterval(check,3000);`  
+  -- Interval is milleseconds, so 3000 = 3 seconds  
+  -- Three seconds (3000) is fast enough for testing
+  -- This step is optional. Use a longer interval (e.g., 30000 for 30 seconds) if you want to reduce the script's footprint in your website stats
+
+7. Copy PHP files to your site (e.g., upload via FTP)  
 -- That's an old version of jQuery, so update it later  
 
-7. Run the test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
+8. Run the test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
   -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
-
-
-
 
 ### Amazon AWS
 
@@ -146,3 +152,9 @@ B. Prepare AWS Lambda service. (The IoT button must already be registered and se
 - Role: Choose an existing role
 - Existing role: lambda_basic_execution
 - "Create function" (orange button)
+
+## Credits and Interesting Links
+- Lambda code inspiration and an interesting IoT button project:  
+  -- [Slack Messaging with the AWS IoT Button](https://medium.com/@cpiggott/slack-messaging-with-the-aws-iot-button-bd9978d0a98a)
+- jQuery code for realtime updates. This was the basis for db.php  
+  -- [Ajax Auto Refresh – Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)
