@@ -1,10 +1,7 @@
 # AWS IoT Button To PHP 
 Rev 0.9 (March 2018)
 
-# THIS PROJECT IS UNDER CONSTRUCTION 
-# THIS DOCUMENT IS UNDER CONSTRUCTION 
-
-## DESCRIPTION
+## Description
 Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT button to a PHP script via HTTP. Button click data is stored in MySQL, and displayed on a web page. Using jQuery, the display is updated without refreshing.
 
 - IoT_Button+WiFi --> AWS_Lambda --> **_PHP/MySQL/HTML_** <-- jQuery
@@ -62,7 +59,7 @@ See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) f
   -- A fail here could be due to IoT button setup. Look at "Invocation count" in the function's Monitoring tab to verify  
 
 
-## REQUIREMENTS
+## Requirements
 1. Amazon AWS Account   
 The heart of this system is Amazon Web services. There you can register your IoT button, and upload the Python code that responds to a button click.  
   -- This demo can not be performed without an AWS account.  
@@ -79,8 +76,8 @@ This is the physical device that will initiate the request. Before you can do an
   -- NOTICE: The script polls every three seconds, so it can cause a spike in your web stats (i.e., an extra 20 pages per minute while the page is open). For testing, run this at a site where stats are not important.
 
 
-## Let's Go  
-How to compile and use (detailed instructions)  
+## Detailed Instructions  
+How to compile and use    
 
 ### Setup PHP / MySQL Website
 
@@ -224,9 +221,9 @@ B. Prepare AWS Lambda function.
   
 C. Attach and test the AWS IoT button  
   
-NOTE: The IoT button must already be registered and set up on your WiFi to proceed with the following steps. Instructions to set up your button can be found here:  
+```NOTE: The IoT button must already be registered and set up on your WiFi to proceed with the following steps. Instructions to set up your button can be found here:  
   -- https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
-  -- You only have to do this once. If your button is already set up on WiFi and connected to AWS, then simply continue.
+  -- You only have to do this once. If your button is already set up on WiFi and connected to AWS, then simply continue.```
   
 1. Add your IoT button as a trigger:  
   -- From the "Add triggers" panel on the left side  
@@ -239,16 +236,28 @@ NOTE: The IoT button must already be registered and set up on your WiFi to proce
 2. The moment of truth... Click your IoT button, while watching the PHP web page, and check the results:  
   -- PHP Web page should report the click type and date/time  
   -- View click data in database table `t_iotbuttontracker`  
-  -- A fail here could be due to IoT button setup. Look at "Invocation count" in the function's Monitoring tab to verify    
+  
+3. A fail here could be due to IoT button setup  
+  -- Click for the Lambda function's "Monitoring" tab (near the top, left side, next to "Configuration")  
+  -- Look at Invocations count in the first box  
+  -- This report is in local time; aggregated by the hour
+  -- Click "Jump to Logs" in the upper right portion of the box  
+  -- Sort order is oldest at top, so scroll down for the most recent clicks  
+  -- This report is in UTC time  
+  -- The logs are not instantly updated    
+  -- Click the Refresh icon (top right) after 30-60 seconds  
+  -- Also keep an eye on the time filter in the upper right, to make sure it covers the current time frame  
   
 ### That's All Folks!
   
-TBD  
+Please report problems, and feel free to make suggestions.  
   
   
-
+  
 ## Credits and Interesting Links
 - Lambda code inspiration and an interesting IoT button project:  
   -- [Slack Messaging with the AWS IoT Button](https://medium.com/@cpiggott/slack-messaging-with-the-aws-iot-button-bd9978d0a98a)
+
 - jQuery code for realtime updates. This was the basis for db.php  
   -- [Ajax Auto Refresh - Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)
+ 
