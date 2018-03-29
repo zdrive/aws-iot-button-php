@@ -82,7 +82,7 @@ This is the physical device that will initiate the request. Before you can do an
 ## Let's Go  
 How to compile and use (detailed instructions)  
 
-### PHP / MySQL Website
+### Setup PHP / MySQL Website
 
 1. Make an empty MySQL database that you can access from your PHP site, and a user that can read and write to the database. Save the following info for later:  
   -- MySQL server host  
@@ -109,7 +109,7 @@ How to compile and use (detailed instructions)
 7. Using a text editor, open "index.php" and update the interval:  
   -- Line 35: `setInterval(check,3000);`  
   -- Interval is milleseconds, so 3000 = 3 seconds  
-  -- Three seconds (3000) is fast enough for testing
+  -- Three seconds (3000) is fast enough for testing  
   -- This step is optional. Use a longer interval (e.g., 30000 for 30 seconds) if you want to reduce the script's footprint in your website stats. Just leave it at 3000 if you don't care about the stats
 
 8. Copy PHP files to your site (e.g., upload via FTP)  
@@ -119,46 +119,79 @@ How to compile and use (detailed instructions)
   -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
 
-### Amazon AWS
+### Python File Preparation 
 
-A. Prepare the Python source file and "requests" library.  
+1. Update the Python file using any text editor: main_wwwexamplecom.py  
+  -- change PostingURL, but make sure to keep the quotes intact.  
+  -- You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"  
+  -- The name of the file will determine the "Handler" field, later  
   
-1. Update the Python file using any text editor: main_wwwexamplecom.py 
-- change PostingURL, but make sure to keep the quotes intact.
-- You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"
-- The name of the file will determine the "Handler" field, later 
-  
-2. Obtain the Python "requests" library files
-- Easy way: use the folders in the Lambda/Python folder  
-- DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
+2. Obtain the Python "requests" library files  
+  -- Easy way: use the folders in the Lambda/Python folder  
+  -- DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
 -- For this project you just need to complete through Step 3 where you run this command: "pip install requests -t /path/to/project-dir"  
   
 3. Place all of the source files into a folder:  
-- main_wwwexamplecom.py
-- all folders 
+  -- main_wwwexamplecom.py  
+  -- all folders  
   
 4. Highlight all of the files, right click and create a ZIP file containing only the Python file and two folders.  
--- Windows: Send to... Compressed (zipped) folder  
--- Mac: Compress Items  
-- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
+  -- Windows: Send to... Compressed (zipped) folder  
+  -- Mac: Compress Items  
+  -- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
+
+5. Save the ZIP file for use in the next step.  
   
-B. Prepare AWS Lambda service. (The IoT button must already be registered and set up).  
+### Amazon AWS Console  
+Log into your [AWS Console](https://aws.amazon.com/) and select a Region that supports AWS IoT and Lambda (e.g., N. Virginia, Ohio or Oregon)  
+  -- FWIW, I used N. Virginia  
+  -- For details see: [docs.aws.amazon.com/.../rande.html](https://docs.aws.amazon.com/general/latest/gr/rande.html)  
+
+A. Create an IAM execution role for Lambda Basic Execution 
+(you can use an exisiting Lambda Basic Execution role, if present)  
   
-1. Log into your [AWS Console](https://aws.amazon.com/) and select a Region that supports AWS IoT and Lambda (e.g., N. Virginia, Ohio or Oregon)
-- FWIW, I used N. Virginia
-- For details see: [docs.aws.amazon.com/.../rande.html](https://docs.aws.amazon.com/general/latest/gr/rande.html)
+1. Go to: Services... Security, Identity & Compliance... IAM  
   
-2. Go to: Services... Compute... Lambda
+2. Select "Roles" from the left menu  
   
-3. AWS Lambda Dashboard
-- "Create function" (orange button)
+3. Click the "Create role" button  
   
-4. Choose "Author from scratch"
-- Name: e.g., "iot-www-example-com" (you can't easily change this later so choose carefully)
-- Runtime: Python 3.6
-- Role: Choose an existing role
-- Existing role: lambda_basic_execution
-- "Create function" (orange button)
+4. Leave the "AWS service" highlighted
+  
+5. Click on the word "Lambda" so that the "Next: Permissions" button is highlighted, then click the "Next: Permissions" button  
+  
+6. Type "lambda" in the search box, then click on "AWSLambdaBasicExecutionRole" when it appears  
+  
+7. Click the "Next: Review" button  
+  
+8. Review  
+  -- Give it a name, such as "lambda_basic_execution"  
+  -- Change the description if desired  
+  -- Click the "Create role" button  
+  
+9. Voila! You now have a Lambda Basic Execution role that you can also use in other projects. You'll need this in the next step  
+  
+B. Prepare AWS Lambda service. 
+  
+1. In the AWS Console, go to Lambda:  
+  -- Services... Compute... Lambda  
+  
+2. AWS Lambda Dashboard  
+  -- "Create function" (orange button)  
+  
+3. Choose "Author from scratch"  
+  -- Name: e.g., "iot-www-example-com" (you can't easily change this later so choose carefully)  
+  -- Runtime: Python 3.6  
+  -- Role: Choose an existing role  
+  -- Existing role: lambda_basic_execution (created above)  
+  -- "Create function" (orange button)  
+    
+TBD...
+  
+(The IoT button must already be registered and set up).  https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
+  
+
+
 
 ## Credits and Interesting Links
 - Lambda code inspiration and an interesting IoT button project:  
