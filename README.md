@@ -1,17 +1,17 @@
 # AWS IoT Button To PHP 
 Rev 0.9 (March 2018)
-
-## Description
+  
+## DESCRIPTION
 Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT button to a PHP script via HTTP. Button click data is stored in MySQL, and displayed on a web page. Using jQuery, the display is updated without refreshing.
 
 - IoT_Button+WiFi --> AWS_Lambda --> **_PHP/MySQL/HTML_** <-- jQuery
 
 See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) for an illustration.
+  
+## QUICK START  
+(See requirements and detailed instructions below)  
 
-## Quick Start  
-(See detailed instructions below)  
-
-- PHP/MySQL
+### PHP/MySQL
 1. Make an empty MySQL database and a read/write user 
 2. Open mysql.sql (using a common text editor such as WordPad)
 3. Select all and copy, then use it to run a query on the empty database (using a DB tool such as phpMyAdmin)
@@ -22,7 +22,7 @@ See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) f
 7. Browse index.php to test - should be no errors, with message:  
   -- "The AWS IoT Button has not been clicked today."
 
-- Amazon AWS
+### Amazon AWS
 1. Set up IoT Button in AWS, and connect it to local WiFi  
 2. Edit the Python code so "PostingURL" points to your website
 3. Zip the Python file, and all of the folders into a single file
@@ -57,31 +57,29 @@ See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) f
   -- PHP Web page should report the click type and date/time  
   -- View click data in database table `t_iotbuttontracker`  
   -- A fail here could be due to IoT button setup. Look at "Invocation count" in the function's Monitoring tab to verify  
-
-
-## Requirements
+  
+## REQUIREMENTS
 1. Amazon AWS Account   
-The heart of this system is Amazon Web services. There you can register your IoT button, and upload the Python code that responds to a button click.  
-  -- This demo can not be performed without an AWS account.  
-  -- If you need to set up an AWS account, then be advised that the process includes account verification by Amazon, so it takes time to complete the set up.  
+The heart of this system is Amazon Web services. There you can register your IoT button, and upload the Python code that responds to a button click  
+  -- This demo can not be performed without an AWS account  
+  -- If you need to set up an AWS account, then be advised that the process includes account verification by Amazon, so it takes time to complete the set up  
   -- URL: https://aws.amazon.com/  
   
 2. AWS IoT Button (or simulator)  
-This is the physical device that will initiate the request. Before you can do anything with it, you'll need to register it in your AWS account, set it up with your WiFi and download security keys from your AWS account, then upload the keys to your button.  
-  -- If you have a button, and you've already set it up and installed the security keys, then you don't need to do it again.  
+This is the physical device that will initiate the request. Before you can do anything with it, you'll need to register it in your AWS account, set it up with your WiFi and download security keys from your AWS account, then upload the keys to your button  
+  -- If you have a button, and you've already set it up and installed the security keys, then you don't need to do it again  
   -- If you have a button, but you have not set it up, then stop here and go do that. See "Getting Started with AWS IoT" at https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
   -- If you *do not* have a button, there are ways to simulate one. But you've got a button, don't you? Otherwise you probably wouldn't be looking at this code!  
   
 3. Website that supports PHP and MySQL (any web server O/S)  
   -- NOTICE: The script polls every three seconds, so it can cause a spike in your web stats (i.e., an extra 20 pages per minute while the page is open). For testing, run this at a site where stats are not important.
-
-
-## Detailed Instructions  
+  
+## DETAILED INSTRUCTIONS  
 How to compile and use    
 
 ### Setup PHP / MySQL Website
 
-1. Make an empty MySQL database that you can access from your PHP site, and a user that can read and write to the database. Save the following info for later:  
+1. Make an empty MySQL database that you can access from your PHP site, and a user with read/write access to the database. Save the following info for later:  
   -- MySQL server host  
   -- User Login  
   -- User Password  
@@ -100,14 +98,17 @@ How to compile and use
 5. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
 
-6. Using a text editor, open "iot_button_click.php" and uncomment the line that respresents your time zone.  
+6. Using a text editor, open "iot_button_click.php" and uncomment the line that respresents your time zone  
   -- This step is optional, but important to get accurate results     
 
 7. Using a text editor, open "index.php" and update the interval:  
   -- Line 35: `setInterval(check,3000);`  
   -- Interval is milleseconds, so 3000 = 3 seconds  
-  -- Three seconds (3000) is fast enough for testing  
-  -- This step is optional. Use a longer interval (e.g., 30000 for 30 seconds) if you want to reduce the script's footprint in your website stats. Just leave it at 3000 if you don't care about the stats
+  -- This step is optional  
+  -- Three seconds (3000) is fast enough for testing purposes  
+  -- Use a longer interval (e.g., 30000 for 30 seconds) to reduce the script's footprint in your website stats  
+  -- Longer interval means you have to wait longer for click data to appear on your website
+  -- Leave it at 3000 if you don't care about the impact on stats  
 
 8. Copy PHP files to your site (e.g., upload via FTP)  
 -- That's an old version of jQuery, so update it later  
@@ -118,27 +119,27 @@ How to compile and use
 
 ### Python File Preparation 
 
-1. Update the Python file using any text editor: main_wwwexamplecom.py  
-  -- change PostingURL, but make sure to keep the quotes intact.  
+1. Update the Python file using a text editor: main_wwwexamplecom.py  
+  -- change PostingURL, but make sure to keep the quotes intact  
   -- You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"  
-  -- The name of the file will determine the "Handler" field, later  
-  (Side note about that User-Agent field -- Your web server might reject an HTTP request that does not include a User Agent. For this code I just copied the first one from a list I found, and it works great. But you can change it another User Agent if desired)
+  -- [Side note about the User-Agent field: Your web server might reject an HTTP request that does not include a User Agent. For this code I just copied the first one from a list I found, and it works. But you can change it another User Agent if desired]
   
 2. Obtain the Python "requests" library files  
-  -- Easy way: use the folders in the Lambda/Python folder  
+  -- Easy way: use the folders in AWS_Lambda/Python  
   -- DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
--- For this project you just need to complete through Step 3 where you run this command: "pip install requests -t /path/to/project-dir"  
+  ---- For this project you just need to complete through Step 3 where you run this command: "pip install requests -t /path/to/project-dir"  
+  ---- Requires Python and pip: https://www.python.org/downloads/  
   
 3. Place all of the source files into a folder:  
   -- main_wwwexamplecom.py  
   -- all folders  
   
-4. Highlight all of the files, right click and create a ZIP file containing only the Python file and two folders.  
+4. Highlight all of the files, right click and create a ZIP file containing only the Python file and two folders  
   -- Windows: Send to... Compressed (zipped) folder  
   -- Mac: Compress Items  
   -- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
 
-5. Save the ZIP file for use in the next step.  
+5. Save the ZIP file for use in the next step  
   
 ### Amazon AWS Console  
 Log into your [AWS Console](https://aws.amazon.com/) and select a Region that supports AWS IoT and Lambda (e.g., N. Virginia, Ohio or Oregon)  
@@ -250,7 +251,7 @@ C. Attach and test the AWS IoT button
   
 ### That's All Folks!
   
-Please report problems, and feel free to make suggestions.  
+Please report problems, and feel free to make suggestions  
   
   
   
