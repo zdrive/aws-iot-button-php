@@ -6,7 +6,7 @@
 // date_default_timezone_set("America/Chicago"); // Central Time
 // date_default_timezone_set("America/Denver"); // Mountain Time
 // date_default_timezone_set("America/Phoenix"); // Mountain Time (no DST) 
-date_default_timezone_set("America/Los_Angeles"); // Pacific Time
+// date_default_timezone_set("America/Los_Angeles"); // Pacific Time
 // date_default_timezone_set("America/Anchorage"); // Alaska Time 
 // date_default_timezone_set("America/Adak"); // Hawaii-Aleutian 
 // date_default_timezone_set("Pacific/Honolulu"); // Hawaii-Aleutian Time (no DST) 

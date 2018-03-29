@@ -31,7 +31,8 @@
 					}
 				});
 			}
-			// Check for new update every 3 seconds 
+			// Check for new update every X milliseconds; (e.g., 3000 = 3 seconds)
+			// Set a longer interval to reduce the impact on website stats 
 			setInterval(check,3000);
 		</script>
 
@@ -42,10 +43,6 @@
 			<section style="text-align: center; width: 215px">
 					<div id="message-list" data-counter="<?php echo (int)$db->check_changes();?>">
 						<?php  echo $db->get_clicks();
-// get_clicks() could return an array here, instead of formatted HTML (see get_clicks() in db.php for details)
-// $aryButtonClick = $db->get_clicks();
-// echo "Click Type: " . $aryButtonClick['ClickType'] .  "<br/>";
-// echo "Start Time: " . $aryButtonClick['StartTime'];
 						?>
 					</div>
 			</section>
@@ -72,6 +69,9 @@
 				<li>HTML</li>
 				<li>JQuery (provides live updates)</li>
 			</ul>
+		<h3>Download the Code</h3>
+		<p><a href="https://github.com/zdrive/aws-iot-button-php">https://github.com/zdrive/aws-iot-button-php</a></p>
+
 <?php // DESCRIPTIVE TEXT END ?>
 
 

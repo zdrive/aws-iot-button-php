@@ -1,5 +1,4 @@
 <?php
-//	 ini_set('display_errors', 1); error_reporting(E_ALL);
 
 /**
  * Class db for Ajax Auto Refresh - Volume II - demo
@@ -76,34 +75,17 @@ class db{
 
 
 	/**
-	 * register_changes
-	 *
-	 * Increase value of counter in database. Should be called everytime when
-	 * something change (add,edit or delete)
-	 *
-	 * @return void
-	 */
-	function register_changes(){
- 		global $AWSbuttonSN;
-		$this->db->query("UPDATE `t_iotsettings` SET `IS_ButtonTrackerID` = `IS_ButtonTrackerID` + 1 WHERE `IS_AWSbuttonSN`='" . $AWSbuttonSN . "'");
-	}
-
-
-	/**
-	 * get_clicks (originally called "get_news")
+	 * get_clicks
 	 *
 	 * Gets the most recent click that occurred today
 	 *
 	 * @return void
+	 *
+	 * used by index.php AND checker.php
+	 *
 	 */
 	function get_clicks(){
  		global $AWSbuttonSN;
-/* get_clicks() could return an array instead of formatted HTML
-   The problem with this is that jQuery function check() in index.php
-   also uses this function and relies on formatted HTML response
-   A better approach might be to return JSON
-*/ 
-// $aryIoTbuttonStatus = array('StartTime' => "", 'ClickType' => "NONE");
 		$strIoTbuttonStatusHTML = "The AWS IoT Button has not been clicked today.";
 
 		if($result = $this->db->query("SELECT `IO_clickType`, `IO_batteryVoltage`, `IO_StartTime` FROM `t_iotbuttontracker` WHERE `IO_serialNumber`='" . $AWSbuttonSN . "' AND DATE(IO_StartTime) = DATE(NOW()) ORDER BY `IO_StartTime` DESC LIMIT 1")){
@@ -115,17 +97,13 @@ class db{
 				$ABtime = $dt->format('g:i:s A');
 
 				$strIoTbuttonStatusHTML= "<b style='color:blue'>Button Click:</b> " . $r->IO_clickType . "<br/><b style='color:blue'>Date:</b> " . htmlspecialchars($ABdate) . "<br/><b style='color:blue'>Time:</b> " . htmlspecialchars($ABtime);
-
-// $aryIoTbuttonStatus = array('StartTime' => $r->IO_StartTime, 'ClickType' => $r->IO_clickType);
-				
+			
 			} // END while($r = $result->fetch_object())
 
 		} // END if($result = $this->db->query... 
 		
-// return $aryIoTbuttonStatus;
 		return $strIoTbuttonStatusHTML;
 	} // END function get_clicks()
-
 
 
 
@@ -153,8 +131,6 @@ class db{
 			$this->db->query("UPDATE `t_iotsettings` SET `IS_ButtonTrackerID` = " . $intNewInsertID . " WHERE `IS_AWSbuttonSN` = '" . $serialNumber . "'");
 		}
 	} // END function button_tracker
-
-
 
 }
 /* End of file db.php */
