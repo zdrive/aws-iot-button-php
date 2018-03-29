@@ -68,11 +68,13 @@ The heart of this system is Amazon Web services. There you can register your IoT
   -- This demo can not be performed without an AWS account.  
   -- If you need to set up an AWS account, then be advised that the process includes account verification by Amazon, so it takes time to complete the set up.  
   -- URL: https://aws.amazon.com/  
+  
 2. AWS IoT Button (or simulator)  
 This is the physical device that will initiate the request. Before you can do anything with it, you'll need to register it in your AWS account, set it up with your WiFi and download security keys from your AWS account, then upload the keys to your button.  
   -- If you have a button, and you've already set it up and installed the security keys, then you don't need to do it again.  
   -- If you have a button, but you have not set it up, then stop here and go do that. See "Getting Started with AWS IoT" at https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
-  -- If you *do not* have a button, there are ways to simulate one. But you've got a button, don't you? Otherwise you probably wouldn't be looking at this code!
+  -- If you *do not* have a button, there are ways to simulate one. But you've got a button, don't you? Otherwise you probably wouldn't be looking at this code!  
+  
 3. Website that supports PHP and MySQL (any web server O/S)  
   -- NOTICE: The script polls every three seconds, so it can cause a spike in your web stats (i.e., an extra 20 pages per minute while the page is open). For testing, run this at a site where stats are not important.
 
@@ -101,33 +103,36 @@ How to compile and use (detailed instructions)
 5. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
 
-6. Using a text editor, open index.php and update the interval:  
+6. Using a text editor, open "iot_button_click.php" and uncomment the line that respresents your time zone.  
+  -- This step is optional, but important to get accurate results     
+
+7. Using a text editor, open "index.php" and update the interval:  
   -- Line 35: `setInterval(check,3000);`  
   -- Interval is milleseconds, so 3000 = 3 seconds  
   -- Three seconds (3000) is fast enough for testing
-  -- This step is optional. Use a longer interval (e.g., 30000 for 30 seconds) if you want to reduce the script's footprint in your website stats
+  -- This step is optional. Use a longer interval (e.g., 30000 for 30 seconds) if you want to reduce the script's footprint in your website stats. Just leave it at 3000 if you don't care about the stats
 
-7. Copy PHP files to your site (e.g., upload via FTP)  
+8. Copy PHP files to your site (e.g., upload via FTP)  
 -- That's an old version of jQuery, so update it later  
 
-8. Run the test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
+9. Run a test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
   -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
 
 ### Amazon AWS
 
 A. Prepare the Python source file and "requests" library.  
-
+  
 1. Update the Python file using any text editor: main_wwwexamplecom.py 
 - change PostingURL, but make sure to keep the quotes intact.
 - You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"
 - The name of the file will determine the "Handler" field, later 
- 
+  
 2. Obtain the Python "requests" library files
 - Easy way: use the folders in the Lambda/Python folder  
 - DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
 -- For this project you just need to complete through Step 3 where you run this command: "pip install requests -t /path/to/project-dir"  
- 
+  
 3. Place all of the source files into a folder:  
 - main_wwwexamplecom.py
 - all folders 
@@ -138,16 +143,16 @@ A. Prepare the Python source file and "requests" library.
 - When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
   
 B. Prepare AWS Lambda service. (The IoT button must already be registered and set up).  
-
+  
 1. Log into your [AWS Console](https://aws.amazon.com/) and select a Region that supports AWS IoT and Lambda (e.g., N. Virginia, Ohio or Oregon)
 - FWIW, I used N. Virginia
 - For details see: [docs.aws.amazon.com/.../rande.html](https://docs.aws.amazon.com/general/latest/gr/rande.html)
-
+  
 2. Go to: Services... Compute... Lambda
-
+  
 3. AWS Lambda Dashboard
 - "Create function" (orange button)
-
+  
 4. Choose "Author from scratch"
 - Name: e.g., "iot-www-example-com" (you can't easily change this later so choose carefully)
 - Runtime: Python 3.6
@@ -159,4 +164,4 @@ B. Prepare AWS Lambda service. (The IoT button must already be registered and se
 - Lambda code inspiration and an interesting IoT button project:  
   -- [Slack Messaging with the AWS IoT Button](https://medium.com/@cpiggott/slack-messaging-with-the-aws-iot-button-bd9978d0a98a)
 - jQuery code for realtime updates. This was the basis for db.php  
-  -- [Ajax Auto Refresh – Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)
+  -- [Ajax Auto Refresh - Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)
