@@ -125,6 +125,7 @@ How to compile and use (detailed instructions)
   -- change PostingURL, but make sure to keep the quotes intact.  
   -- You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"  
   -- The name of the file will determine the "Handler" field, later  
+  (Side note about that User-Agent field -- Your web server might reject an HTTP request that does not include a User Agent. For this code I just copied the first one from a list I found, and it works great. But you can change it another User Agent if desired)
   
 2. Obtain the Python "requests" library files  
   -- Easy way: use the folders in the Lambda/Python folder  
@@ -171,7 +172,7 @@ A. Create an IAM execution role for Lambda Basic Execution
   
 9. Voila! You now have a Lambda Basic Execution role that you can also use in other projects. You'll need this in the next step  
   
-B. Prepare AWS Lambda service. 
+B. Prepare AWS Lambda function. 
   
 1. In the AWS Console, go to Lambda:  
   -- Services... Compute... Lambda  
@@ -185,13 +186,66 @@ B. Prepare AWS Lambda service.
   -- Role: Choose an existing role  
   -- Existing role: lambda_basic_execution (created above)  
   -- "Create function" (orange button)  
-    
-TBD...
   
-(The IoT button must already be registered and set up).  https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
+4. Go to section: "Function code" which is directly below the function Designer  
+  -- Code entry type: Upload a Zip file  
+  -- Use the Zip from step 3 above  
+  -- Runtime: Python 3.6
+  -- Handler: main_wwwexamplecom.handler  
+  ---- If you changed the Python file name, the first part of the handler needs to match. So if your file is "sample.py" then the handler will be "sample.handler"  
+  -- Click the Save button  
+
+5. Using a text editor, open a file such as "TestEventLiveSNsingle.json"  
+  -- Change "IoTbtnSerialNum" to your button's S/N  
+  -- Select all text in the JSON file, and copy it  
   
-
-
+6. Back in AWS Lambda function configuration page, create a test event:  
+  -- Use the dropdown menu near the "Test" button (top right portion of page)  
+  -- Choose "Configure test events"  
+  -- Select "Create a new test event"  
+  -- Event name: same as file name, e.g., "TestEventLiveSNsingle"  
+  -- In the box, paste the JSON you copied in the previous step  
+  -- Click the "Create" button near the bottom  
+  
+7. Run the test event:  
+  -- Use the dropdown menu to select the test you just created  
+  -- Click the "Test" button  
+  -- Meanwhile, also watch your PHP web page in another window  
+  
+8. Check the results:  
+  -- PHP Web page should report the click type and date/time  
+  -- Lambda Execution Result (near bottom) should be "null"  
+  
+9. If it fails, look for clues:  
+  -- After you run a test, the Execution Result pane will appear below the code. If there are errors, you might find messages here    
+  -- A fail at this point also could be due to hosting restrictions (check your web server logs for more clues)  
+  
+10. When tests are successful, continue...
+  
+C. Attach and test the AWS IoT button  
+  
+NOTE: The IoT button must already be registered and set up on your WiFi to proceed with the following steps. Instructions to set up your button can be found here:  
+  -- https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
+  -- You only have to do this once. If your button is already set up on WiFi and connected to AWS, then simply continue.
+  
+1. Add your IoT button as a trigger:  
+  -- From the "Add triggers" panel on the left side  
+  -- Click "AWS IoT"  
+  -- Scroll down to the "Configure triggers" section  
+  -- Custom IoT Rule... Rule... Pick an existing Rule  
+  -- Choose your IoT button  
+  -- Click the Save button  
+  
+2. The moment of truth... Click your IoT button, while watching the PHP web page, and check the results:  
+  -- PHP Web page should report the click type and date/time  
+  -- View click data in database table `t_iotbuttontracker`  
+  -- A fail here could be due to IoT button setup. Look at "Invocation count" in the function's Monitoring tab to verify    
+  
+### That's All Folks!
+  
+TBD  
+  
+  
 
 ## Credits and Interesting Links
 - Lambda code inspiration and an interesting IoT button project:  
