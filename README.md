@@ -222,7 +222,7 @@ B. Prepare AWS Lambda function.
   
 C. Attach and test the AWS IoT button  
   
-NOTE: The IoT button must already be registered and set up on your WiFi to proceed with the following steps. Instructions to set up your button can be found here:  
+0. NOTE: The IoT button must already be registered and set up on your WiFi to proceed with the following steps. Instructions to set up your button can be found here:  
   -- https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
   -- You only have to do this once. If your button is already set up on WiFi and connected to AWS, then simply continue.  
   
