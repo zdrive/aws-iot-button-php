@@ -202,7 +202,7 @@ B. Prepare AWS Lambda function.
   -- Choose "Configure test events"  
   -- Select "Create a new test event"  
   -- Event name: same as file name, e.g., "TestEventLiveSNsingle"  
-  -- In the box, paste the JSON you copied in the previous step  
+  -- In the box, paste the JSON you copied in the previous step (delete and replace any JSON that might already be there)  
   -- Click the "Create" button near the bottom  
   
 7. Run the test event:  
