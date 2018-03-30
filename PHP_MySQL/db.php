@@ -20,8 +20,8 @@ class db{
 	 * @var $	public $db;
 	 */
 	public $db;
-	
 
+ 	
 	/**
 	 * __construct
 	 *
