@@ -59,7 +59,7 @@ class db{
 	 *
 	 * Get counter value from database
 	 *
-	 * used by checker.php
+	 * @used-by checker.php
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,8 @@ class db{
 	 *
 	 * @return void
 	 *
-	 * used by index.php AND checker.php
+	 * @used-by index.php
+	 * @used-by checker.php
 	 *
 	 */
 	function get_clicks(){
@@ -112,7 +113,7 @@ class db{
 	 *
 	 * Inserts record with data that came from Amazon AWS Lambda
 	 *
-	 * used by iot_button_click.php
+	 * @used-by iot_button_click.php
 	 *
 	 * @return void
 	 */

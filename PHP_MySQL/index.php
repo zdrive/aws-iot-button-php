@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * AWS IoT Button To PHP; Rev 1.0, March 2018
+ * @author Tim Heffley <dev@zdcs.com>
+ * @link https://github.com/zdrive/aws-iot-button-php
+ *  
+ * 
+ */
+
 	// IN CASE OF EMERGENCY BREAK GLASS
 	// ini_set('display_errors', 1); error_reporting(E_ALL);
 
