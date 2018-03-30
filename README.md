@@ -1,5 +1,5 @@
 # AWS IoT Button To PHP 
-Rev 0.9 (March 2018)
+Rev 1.0 (March 2018)
   
 ## DESCRIPTION
 Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT button to a PHP script via HTTP. Button click data is stored in MySQL, and displayed on a web page. Using jQuery, the display is updated without refreshing.
@@ -27,7 +27,7 @@ See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) f
 2. Edit the Python code so "PostingURL" points to your website
 3. Zip the Python file, and all of the folders into a single file
 4. Log into Amazon AWS
-5. Create IAM execution role for Lambda Basic Execution (you can use an exisiting Lambda Basic Execution role, if present)
+5. Create IAM execution role for Lambda Basic Execution (you can use an existing Lambda Basic Execution role, if present)
 6. Create a new AWS Lambda function  
   -- Runtime: Python 3.6  
   -- Choose existing role: Lambda Basic Execution (from above)  
@@ -98,12 +98,12 @@ How to compile and use
 5. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
 
-6. Using a text editor, open "iot_button_click.php" and uncomment the line that respresents your time zone  
+6. Using a text editor, open "iot_button_click.php" and uncomment the line that represents your time zone  
   -- This step is optional, but important to get accurate results     
 
 7. Using a text editor, open "index.php" and update the interval:  
   -- Line 35: `setInterval(check,3000);`  
-  -- Interval is milleseconds, so 3000 = 3 seconds  
+  -- Interval is milliseconds, so 3000 = 3 seconds  
   -- This step is optional  
   -- Three seconds (3000) is fast enough for testing purposes  
   -- Use a longer interval (e.g., 30000 for 30 seconds) to reduce the script's footprint in your website stats  
@@ -147,7 +147,7 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   -- For details see: [docs.aws.amazon.com/.../rande.html](https://docs.aws.amazon.com/general/latest/gr/rande.html)  
 
 A. Create an IAM execution role for Lambda Basic Execution 
-(you can use an exisiting Lambda Basic Execution role, if present)  
+(you can use an existing Lambda Basic Execution role, if present)  
   
 1. Go to: Services... Security, Identity & Compliance... IAM  
   
