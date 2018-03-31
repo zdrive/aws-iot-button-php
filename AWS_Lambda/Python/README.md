@@ -1,4 +1,4 @@
-"serialNumber": # AWS IoT Button To PHP 
+# AWS IoT Button To PHP 
 Rev 1.0 (March 2018)
   
 ## AMAZON AWS LAMBDA FILES
