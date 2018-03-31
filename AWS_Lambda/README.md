@@ -11,7 +11,9 @@ Rev 1.0 (March 2018)
  
 Use these files to create test events that simulate AWS IoT button clicks, so you can try your Lambda function before the button is linked to it.  
  
-1. Using any text editor, open a JSON file  
+### How to Use  
+
+1. Open a JSON file with any text editor  
   -- (e.g., "TestEventLiveSNsingle.JSON") 
   
 2. Replace "IoTbtnSerialNum" with your AWS IoT button serial number  
