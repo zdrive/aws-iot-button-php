@@ -1,16 +1,16 @@
 # AWS IoT Button To PHP 
-Rev 1.0 (March 2018)
+Rev 1.0 (April 2018)
   
 ## DESCRIPTION
 Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT button to a PHP script via HTTP. Button click data is stored in MySQL, and displayed on a web page. Using jQuery, the display is updated without refreshing.
-
+  
 - IoT_Button+WiFi --> AWS_Lambda --> **_PHP/MySQL/HTML_** <-- jQuery
-
+  
 See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) for an illustration.
   
 ## QUICK START  
 (See requirements and detailed instructions below)  
-
+  
 ### PHP/MySQL
 1. Make an empty MySQL database and a read/write user 
 2. Open mysql.sql (using a common text editor such as WordPad)
@@ -21,7 +21,7 @@ See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) f
 6. Copy PHP files to your site (e.g., upload via FTP)
 7. Browse index.php to test - should be no errors, with message:  
   -- "The AWS IoT Button has not been clicked today."
-
+  
 ### Amazon AWS
 1. Set up IoT Button in AWS, and connect it to local WiFi  
 2. Edit the Python code so "PostingURL" points to your website
@@ -76,31 +76,31 @@ This is the physical device that will initiate the request. Before you can do an
   
 ## DETAILED INSTRUCTIONS  
 How to compile and use    
-
+  
 ### Setup PHP / MySQL Website
-
+  
 1. Make an empty MySQL database that you can access from your PHP site, and a user with read/write access to the database. Save the following info for later:  
   -- MySQL server host  
   -- User Login  
   -- User Password  
   -- Database Name  
-
+  
 2. Open mysql.sql (using a common text editor such as WordPad)  
   -- If you'd like, you can change the value for IS_AWSbuttonSN  
   -- Change sample value "A123BC456789DEFG" to your button S/N  
   -- The S/N can also easily be changed in the table later on  
-
+  
 3. Select all and copy, then use it to run a query on the empty database   
   -- phpMyAdmin: Select the new database, click "SQL" tab, paste code into the box and click "Go"
-
+  
 4. In phpMyAdmin, open table `t_iotsettings` and verify field `IS_AWSbuttonSN` has your IoT button serial number (update as needed)
-
+  
 5. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
-
+  
 6. Using a text editor, open "iot_button_click.php" and uncomment the line that represents your time zone  
   -- This step is optional, but important to get accurate results     
-
+  
 7. Using a text editor, open "index.php" and update the interval:  
   -- Line 35: `setInterval(check,3000);`  
   -- Interval is milliseconds, so 3000 = 3 seconds  
@@ -109,16 +109,16 @@ How to compile and use
   -- Use a longer interval (e.g., 30000 for 30 seconds) to reduce the script's footprint in your website stats  
   -- Longer interval means you have to wait longer for click data to appear on your website
   -- Leave it at 3000 if you don't care about the impact on stats  
-
+  
 8. Copy PHP files to your site (e.g., upload via FTP)  
--- That's an old version of jQuery, so update it later  
-
+  -- That's an old version of jQuery, so update it later  
+  
 9. Run a test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
   -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
-
+  
 ### Python File Preparation 
-
+  
 1. Update the Python file using a text editor: main_wwwexamplecom.py  
   -- change PostingURL, but make sure to keep the quotes intact  
   -- You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"  
@@ -138,16 +138,17 @@ How to compile and use
   -- Windows: Send to... Compressed (zipped) folder  
   -- Mac: Compress Items  
   -- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
-
+  
 5. Save the ZIP file for use in the next step  
   
 ### Amazon AWS Console  
 Log into your [AWS Console](https://aws.amazon.com/) and select a Region that supports AWS IoT and Lambda (e.g., N. Virginia, Ohio or Oregon)  
   -- FWIW, I used N. Virginia  
   -- For details see: [docs.aws.amazon.com/.../rande.html](https://docs.aws.amazon.com/general/latest/gr/rande.html)  
+  
+**A. Create an IAM execution role for Lambda Basic Execution**  
 
-A. Create an IAM execution role for Lambda Basic Execution 
-(you can use an existing Lambda Basic Execution role, if present)  
+0. (you can use an existing Lambda Basic Execution role, if present)  
   
 1. Go to: Services... Security, Identity & Compliance... IAM  
   
@@ -170,7 +171,7 @@ A. Create an IAM execution role for Lambda Basic Execution
   
 9. Voila! You now have a Lambda Basic Execution role that you can also use in other projects. You'll need this in the next step  
   
-B. Prepare AWS Lambda function. 
+**B. Prepare AWS Lambda function** 
   
 1. In the AWS Console, go to Lambda:  
   -- Services... Compute... Lambda  
@@ -192,12 +193,14 @@ B. Prepare AWS Lambda function.
   -- Handler: main_wwwexamplecom.handler  
   ---- If you changed the Python file name, the first part of the handler needs to match. So if your file is "sample.py" then the handler will be "sample.handler"  
   -- Click the Save button  
+  
+**C. Test AWS Lambda function**
 
-5. Using a text editor, open a file such as "TestEventLiveSNsingle.json"  
+1. Using a text editor, open a file such as "TestEventLiveSNsingle.json"  
   -- Change "IoTbtnSerialNum" to your button's S/N  
   -- Select all text in the JSON file, and copy it  
   
-6. Back in AWS Lambda function configuration page, create a test event:  
+2. Back in AWS Lambda function configuration page, create a test event:  
   -- Use the dropdown menu near the "Test" button (top right portion of page)  
   -- Choose "Configure test events"  
   -- Select "Create a new test event"  
@@ -205,22 +208,22 @@ B. Prepare AWS Lambda function.
   -- In the box, paste the JSON you copied in the previous step (delete and replace any JSON that might already be there)  
   -- Click the "Create" button near the bottom  
   
-7. Run the test event:  
+3. Run the test event:  
   -- Use the dropdown menu to select the test you just created  
   -- Click the "Test" button  
   -- Meanwhile, also watch your PHP web page in another window  
   
-8. Check the results:  
+4. Check the results:  
   -- PHP Web page should report the click type and date/time  
   -- Lambda Execution Result (near bottom) should be "null"  
   
-9. If it fails, look for clues:  
+5. If it fails, look for clues:  
   -- After you run a test, the Execution Result pane will appear below the code. If there are errors, you might find messages here    
   -- A fail at this point also could be due to hosting restrictions (check your web server logs for more clues)  
   
-10. When tests are successful, continue...
+6. When tests are successful, continue...
   
-C. Attach and test the AWS IoT button  
+**D. Attach and test the AWS IoT button** 
   
 0. NOTE: The IoT button must already be registered and set up on your WiFi to proceed with the following steps. Instructions to set up your button can be found here:  
   -- https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
@@ -249,16 +252,23 @@ C. Attach and test the AWS IoT button
   -- Click the Refresh icon (top right) after 30-60 seconds  
   -- Also keep an eye on the time filter in the upper right, to make sure it covers the current time frame  
   
-### That's All Folks!
   
-Please report problems, and feel free to make suggestions  
+## TROUBLESHOOTING TIPS
+- See detailed instructions for testing procedures on each step  
+- Enable PHP error messages to troubleshoot PHP / MySQL problems  
+- Look in the Execution Result pane for Lambda function problems  
+- The Lambda function's Monitoring tab shows button connectivity  
   
   
+## AUTHOR
+- Tim Heffley <dev@zdcs.com>  
+- Please report problems, and feel free to make suggestions  
   
-## Credits and Interesting Links
+  
+## CREDITS
 - Lambda code inspiration and an interesting IoT button project:  
   -- [Slack Messaging with the AWS IoT Button](https://medium.com/@cpiggott/slack-messaging-with-the-aws-iot-button-bd9978d0a98a)
-
+  
 - jQuery code for realtime updates. This was the basis for db.php  
   -- [Ajax Auto Refresh - Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)
  
