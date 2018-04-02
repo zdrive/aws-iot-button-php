@@ -8,6 +8,14 @@ Uses a Python script for AWS Lambda to send click data from an Amazon AWS IoT bu
   
 See [iot-button-integration-overview.jpg](iot-button-integration-overview.jpg) for an illustration.
   
+## DOWNLOAD
+- REPO: https://github.com/zdrive/aws-iot-button-php
+- GIT: https://github.com/zdrive/aws-iot-button-php.git  
+    
+## DEMO
+- http://www.zdcs.com/aws-iot-button-php/  
+In order to see this work, you really need to try it yourself. But if you'd like, go ahead and browse the link above to see if I have clicked my IoT button today. 
+
 ## QUICK START  
 (See requirements and detailed instructions below)  
   
@@ -77,9 +85,11 @@ This is the physical device that will initiate the request. Before you can do an
 ## DETAILED INSTRUCTIONS  
 How to compile and use    
   
-### Setup PHP / MySQL Website
+### Setup MySQL Database
   
-1. Make an empty MySQL database that you can access from your PHP site, and a user with read/write access to the database. Save the following info for later:  
+1. Make an empty MySQL database that you can access from your PHP site, and a user with read/write access to the database:  
+  -- Permissions: ALTER, CREATE, INSERT, SELECT, UPDATE  
+Save the following info for later:  
   -- MySQL server host  
   -- User Login  
   -- User Password  
@@ -95,6 +105,8 @@ How to compile and use
   
 4. In phpMyAdmin, open table `t_iotsettings` and verify field `IS_AWSbuttonSN` has your IoT button serial number (update as needed)
   
+### Setup PHP Website
+  
 5. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
   
@@ -107,34 +119,36 @@ How to compile and use
   -- This step is optional  
   -- Three seconds (3000) is fast enough for testing purposes  
   -- Use a longer interval (e.g., 30000 for 30 seconds) to reduce the script's footprint in your website stats  
-  -- Longer interval means you have to wait longer for click data to appear on your website
+  -- Longer interval means you have to wait longer for click data to appear on your website  
   -- Leave it at 3000 if you don't care about the impact on stats  
   
 8. Copy PHP files to your site (e.g., upload via FTP)  
   -- That's an old version of jQuery, so update it later  
   
 9. Run a test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
-  -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php:  
+  -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php, then run it again:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
   
 ### Python File Preparation 
   
-1. Update the Python file using a text editor: main_wwwexamplecom.py  
-  -- change PostingURL, but make sure to keep the quotes intact  
+1. Update the Python file using a text editor:  
+  -- AWS_Lambda/Python/main_wwwexamplecom.py  
+  -- Change PostingURL, but make sure to keep the quotes intact  
   -- You can rename this file to reflect your own domain, or use any name you like, as long as it ends with ".py"  
-  -- [Side note about the User-Agent field: Your web server might reject an HTTP request that does not include a User Agent. For this code I just copied the first one from a list I found, and it works. But you can change it another User Agent if desired]
+  -- [Side note about the User-Agent field: Your web server might reject an HTTP request that does not include a User Agent. For this code I just copied the first one from a list I found, and it works. But you can change it to a different User Agent if desired]
   
 2. Obtain the Python "requests" library files  
   -- Easy way: use the folders in AWS_Lambda/Python  
   -- DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
-  ---- For this project you just need to complete through Step 3 where you run this command: "pip install requests -t /path/to/project-dir"  
-  ---- Requires Python and pip: https://www.python.org/downloads/  
+  ---- For this project you just need to complete through Step 3 where you run this command: `pip install requests -t /path/to/project-dir`  
+  ---- Requires Python and pip:  
+  ---- https://www.python.org/downloads/  
   
 3. Place all of the source files into a folder:  
   -- main_wwwexamplecom.py  
-  -- all folders  
+  -- all ten Python folders  
   
-4. Highlight all of the files, right click and create a ZIP file containing only the Python file and two folders  
+4. Highlight all of the files, right click and create a ZIP file containing only the Python file and ten folders  
   -- Windows: Send to... Compressed (zipped) folder  
   -- Mac: Compress Items  
   -- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
@@ -147,7 +161,7 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   -- For details see: [docs.aws.amazon.com/.../rande.html](https://docs.aws.amazon.com/general/latest/gr/rande.html)  
   
 **A. Create an IAM execution role for Lambda Basic Execution**  
-
+  
 0. (you can use an existing Lambda Basic Execution role, if present)  
   
 1. Go to: Services... Security, Identity & Compliance... IAM  
@@ -160,7 +174,8 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   
 5. Click on the word "Lambda" so that the "Next: Permissions" button is highlighted, then click the "Next: Permissions" button  
   
-6. Type "lambda" in the search box, then click on "AWSLambdaBasicExecutionRole" when it appears  
+6. Type "lambda" in the search box, then check the box next to  "AWSLambdaBasicExecutionRole" when it appears  
+  -- "AWSLambdaBasicExecutionRole" is a link - do NOT click it, just check the box 
   
 7. Click the "Next: Review" button  
   
@@ -169,7 +184,7 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   -- Change the description if desired  
   -- Click the "Create role" button  
   
-9. Voila! You now have a Lambda Basic Execution role that you can also use in other projects. You'll need this in the next step  
+9. Voila! You now have a Lambda Basic Execution role that you can also use in other projects. You'll use it in the next step  
   
 **B. Prepare AWS Lambda function** 
   
@@ -188,25 +203,31 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   
 4. Go to section: "Function code" which is directly below the function Designer  
   -- Code entry type: Upload a Zip file  
-  -- Use the Zip from step 3 above  
-  -- Runtime: Python 3.6
+  -- Use the Zip file from above, "Python File Preparation"  
+  -- Runtime: Python 3.6  
   -- Handler: main_wwwexamplecom.handler  
   ---- If you changed the Python file name, the first part of the handler needs to match. So if your file is "sample.py" then the handler will be "sample.handler"  
   -- Click the Save button  
   
-**C. Test AWS Lambda function**
+5. If there are problems, you'll see an error message from AWS that will hopefully have adequate clues to help you troubleshoot  
+  -- Check the Handler field  
 
+6. If all is well, you will see your Python code in the main pane, and the Python folders on the left  
+  
+**C. Test AWS Lambda function**
+  
 1. Using a text editor, open a file such as "TestEventLiveSNsingle.json"  
   -- Change "IoTbtnSerialNum" to your button's S/N  
   -- Select all text in the JSON file, and copy it  
   
 2. Back in AWS Lambda function configuration page, create a test event:  
-  -- Use the dropdown menu near the "Test" button (top right portion of page)  
+  -- Use the dropdown menu near the "Test" button (top right)  
   -- Choose "Configure test events"  
   -- Select "Create a new test event"  
-  -- Event name: same as file name, e.g., "TestEventLiveSNsingle"  
+  -- In the box, delete any JSON that might already be there  
   -- In the box, paste the JSON you copied in the previous step (delete and replace any JSON that might already be there)  
-  -- Click the "Create" button near the bottom  
+  -- Event name (above the box): same as file name, e.g., "TestEventLiveSNsingle"  
+ -- Click the "Create" button near the bottom  
   
 3. Run the test event:  
   -- Use the dropdown menu to select the test you just created  
@@ -229,46 +250,64 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   -- https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html  
   -- You only have to do this once. If your button is already set up on WiFi and connected to AWS, then simply continue.  
   
-1. Add your IoT button as a trigger:  
-  -- From the "Add triggers" panel on the left side  
+1. in AWS Lambda function configuration page, add your IoT button as a trigger:  
+  -- Find the "Add triggers" panel on the left side  
   -- Click "AWS IoT"  
   -- Scroll down to the "Configure triggers" section  
-  -- Custom IoT Rule... Rule... Pick an existing Rule  
+  -- Select "Custom IoT Rule"  
+  -- Rule... Existing Rule  
   -- Choose your IoT button  
-  -- Click the Save button  
+  -- Click the Add button (lower right)  
+  -- Click the Save button (top right)  
   
 2. The moment of truth... Click your IoT button, while watching the PHP web page, and check the results:  
   -- PHP Web page should report the click type and date/time  
   -- View click data in database table `t_iotbuttontracker`  
   
-3. A fail here could be due to IoT button setup  
-  -- Click for the Lambda function's "Monitoring" tab (near the top, left side, next to "Configuration")  
+3. If all is well then you're done! But if you'd like to learn more about your IoT button, check out the CloudWatch Logs as described in the next step
+  
+4. A fail here could be due to IoT button setup  
+  -- Click the Lambda function's "Monitoring" tab (near the top, left side, next to "Configuration")  
   -- Look at Invocations count in the first box  
-  -- This report is in local time; aggregated by the hour
+  -- This report is in local time; aggregated by the hour  
   -- Click "Jump to Logs" in the upper right portion of the box  
   -- Sort order is oldest at top, so scroll down for the most recent clicks  
   -- This report is in UTC time  
   -- The logs are not instantly updated    
   -- Click the Refresh icon (top right) after 30-60 seconds  
   -- Also keep an eye on the time filter in the upper right, to make sure it covers the current time frame  
+  -- If you click your IoT button and you don't see anything in the CloudWatch Logs within about a minute, then there might be a problem with your button setup
   
+### That's All Folks!
+End of detailed instructions
   
+---
+    
 ## TROUBLESHOOTING TIPS
 - See detailed instructions for testing procedures on each step  
 - Enable PHP error messages to troubleshoot PHP / MySQL problems  
 - Look in the Execution Result pane for Lambda function problems  
 - The Lambda function's Monitoring tab shows button connectivity  
   
-  
 ## AUTHOR
 - Tim Heffley <dev@zdcs.com>  
 - Please report problems, and feel free to make suggestions  
-  
   
 ## CREDITS
 - Lambda code inspiration and an interesting IoT button project:  
   -- [Slack Messaging with the AWS IoT Button](https://medium.com/@cpiggott/slack-messaging-with-the-aws-iot-button-bd9978d0a98a)
   
 - jQuery code for realtime updates. This was the basis for db.php  
-  -- [Ajax Auto Refresh - Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)
+  -- [Ajax Auto Refresh - Volume II](http://blog.codebusters.pl/en/entry/ajax-auto-refresh-volume-ii)  
+  
+## LICENSE  
+aws-iot-button-php is released under the MIT License.  
+  
+Copyright (c) 2018 Z-Drive Computer Service, Los Angeles, California, USA
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  

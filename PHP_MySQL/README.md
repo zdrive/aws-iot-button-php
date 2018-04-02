@@ -14,6 +14,28 @@ Rev 1.0 (April 2018)
   
 ### How to Use  
   
+### Setup MySQL Database
+  
+1. Make an empty MySQL database that you can access from your PHP site, and a user with read/write access to the database:  
+  -- Permissions: ALTER, CREATE, INSERT, SELECT, UPDATE  
+Save the following info for later:  
+  -- MySQL server host  
+  -- User Login  
+  -- User Password  
+  -- Database Name  
+  
+2. Open mysql.sql (using a common text editor such as WordPad)  
+  -- If you'd like, you can change the value for IS_AWSbuttonSN  
+  -- Change sample value "A123BC456789DEFG" to your button S/N  
+  -- The S/N can also easily be changed in the table later on  
+  
+3. Select all and copy, then use it to run a query on the empty database   
+  -- phpMyAdmin: Select the new database, click "SQL" tab, paste code into the box and click "Go"
+  
+4. In phpMyAdmin, open table `t_iotsettings` and verify field `IS_AWSbuttonSN` has your IoT button serial number (update as needed)
+  
+### Setup PHP Website
+  
 1. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
   
@@ -26,37 +48,14 @@ Rev 1.0 (April 2018)
   -- This step is optional  
   -- Three seconds (3000) is fast enough for testing purposes  
   -- Use a longer interval (e.g., 30000 for 30 seconds) to reduce the script's footprint in your website stats  
-  -- Longer interval means you have to wait longer for click data to appear on your website
+  -- Longer interval means you have to wait longer for click data to appear on your website  
   -- Leave it at 3000 if you don't care about the impact on stats  
   
-4. Copy jQuery and PHP files to your site (e.g., upload via FTP)  
+4. Copy PHP files to your site (e.g., upload via FTP)  
   -- That's an old version of jQuery, so update it later  
   
 5. Run a test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
-  -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php:  
+  -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php, then run it again:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
   
-### MySQL File
-  
-- mysql.sql  
-  
-### How to Use  
-  
-1. Make an empty MySQL database that you can access from your PHP site, and a user with read/write access to the database. Save the following info for later:  
-  -- MySQL server host  
-  -- User Login  
-  -- User Password  
-  -- Database Name  
-  
-2. Open mysql.sql (using a common text editor such as WordPad)  
-  
-3. If you'd like, you can change the value for IS_AWSbuttonSN  
-  -- Change sample value "A123BC456789DEFG" to your button S/N  
-  -- The S/N can also easily be changed in the table later on  
-  
-3. Select all and copy, then use it to run a query on the empty database   
-  -- phpMyAdmin: Select the new database, click "SQL" tab, paste code into the box and click "Go"
-
-4. In phpMyAdmin, open table `t_iotsettings` and verify field `IS_AWSbuttonSN` has your IoT button serial number (update as needed)
- 
 
