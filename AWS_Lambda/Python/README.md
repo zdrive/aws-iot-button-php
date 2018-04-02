@@ -24,7 +24,8 @@ Rev 1.0 (March 2018)
 2. Obtain the Python "requests" library files  
   -- Easy way: use the folders in AWS_Lambda/Python  
   -- DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
-  ---- For this project you just need to complete through Step 3 where you run this command: `pip install requests -t /path/to/project-dir`  
+  ---- For this project you just need to complete through Step 3 where you run this command:  
+  ---- `pip install requests -t /path/to/project-dir`  
   ---- Requires Python and pip:  
   ---- https://www.python.org/downloads/  
   

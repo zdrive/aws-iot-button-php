@@ -107,13 +107,13 @@ Save the following info for later:
   
 ### Setup PHP Website
   
-5. Using a text editor, open file "_settings.php" and update:  
+1. Using a text editor, open file "_settings.php" and update:  
   -- MySQL Host, Login, Password, DB Name, IoT Button S/N  
   
-6. Using a text editor, open "iot_button_click.php" and uncomment the line that represents your time zone  
+2. Using a text editor, open "iot_button_click.php" and uncomment the line that represents your time zone  
   -- This step is optional, but important to get accurate results     
   
-7. Using a text editor, open "index.php" and update the interval:  
+3. Using a text editor, open "index.php" and update the interval:  
   -- Line 35: `setInterval(check,3000);`  
   -- Interval is milliseconds, so 3000 = 3 seconds  
   -- This step is optional  
@@ -122,10 +122,10 @@ Save the following info for later:
   -- Longer interval means you have to wait longer for click data to appear on your website  
   -- Leave it at 3000 if you don't care about the impact on stats  
   
-8. Copy PHP files to your site (e.g., upload via FTP)  
+4. Copy PHP files to your site (e.g., upload via FTP)  
   -- That's an old version of jQuery, so update it later  
   
-9. Run a test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
+5. Run a test by browsing index.php. The result should be: "The AWS IoT Button has not been clicked today."  
   -- If you get an error, try uncommenting the PHP error reporting code near the top of index.php, then run it again:  
   -- `ini_set('display_errors', 1); error_reporting(E_ALL);`  
   
@@ -140,7 +140,8 @@ Save the following info for later:
 2. Obtain the Python "requests" library files  
   -- Easy way: use the folders in AWS_Lambda/Python  
   -- DIY: [AWS: lambda-python-how-to-create-deployment-package.html](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html)  
-  ---- For this project you just need to complete through Step 3 where you run this command: `pip install requests -t /path/to/project-dir`  
+  ---- For this project you just need to complete through Step 3 where you run this command:  
+  ---- `pip install requests -t /path/to/project-dir`  
   ---- Requires Python and pip:  
   ---- https://www.python.org/downloads/  
   
