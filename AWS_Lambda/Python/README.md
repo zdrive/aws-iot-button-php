@@ -30,14 +30,14 @@ Rev 1.0 (March 2018)
   ---- Requires Python and pip:  
   ---- https://www.python.org/downloads/  
   
-3. Place all of the source files into a folder:  
+3. In File Explorer (or Finder), select all of the source files:  
   -- main_wwwexamplecom.py  
   -- all ten Python folders  
   
-4. Highlight all of the files, right click and create a ZIP file containing only the Python file and ten folders  
+4. Right click the selection and create a Zip file:    
   -- Windows: Send to... Compressed (zipped) folder  
   -- Mac: Compress Items  
-  -- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
+  -- When you look in the resulting Zip file, you should see the Python file and ten folders at the top level of the Zip file 
   
 5. Save the ZIP file for use in the AWS Lambda Function Configuration page  
   

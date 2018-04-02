@@ -146,16 +146,16 @@ Save the following info for later:
   ---- Requires Python and pip:  
   ---- https://www.python.org/downloads/  
   
-3. Place all of the source files into a folder:  
+3. In File Explorer (or Finder), select all of the source files:  
   -- main_wwwexamplecom.py  
   -- all ten Python folders  
   
-4. Highlight all of the files, right click and create a ZIP file containing only the Python file and ten folders  
+4. Right click the selection and create a Zip file:    
   -- Windows: Send to... Compressed (zipped) folder  
   -- Mac: Compress Items  
-  -- When you look in the resulting Zip file, you should see the Python file and folders at the top level of the Zip file. 
+  -- When you look in the resulting Zip file, you should see the Python file and ten folders at the top level of the Zip file 
   
-5. Save the ZIP file for use in the next step  
+5. Save the Zip file for use in the next step  
   
 ### Amazon AWS Console  
 Log into your [AWS Console](https://aws.amazon.com/) and select a Region that supports AWS IoT and Lambda (e.g., N. Virginia, Ohio or Oregon)  
@@ -213,6 +213,7 @@ Log into your [AWS Console](https://aws.amazon.com/) and select a Region that su
   
 5. If there are problems, you'll see an error message from AWS that will hopefully have adequate clues to help you troubleshoot  
   -- Check the Handler field  
+  -- Make sure your Zip file has the Python file and folders at the top level of the Zip file  
 
 6. If all is well, you will see your Python code in the main pane, and the Python folders on the left  
   
