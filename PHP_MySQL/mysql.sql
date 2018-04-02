@@ -27,7 +27,7 @@ CREATE TABLE `t_iotsettings` (
 --
 
 INSERT INTO `t_iotsettings` (`IS_ID`, `IS_AWSbuttonSN`, `IS_ButtonTrackerID`) VALUES
-(1, 'A123BC456789DEFG', 0);
+(1, 'A123BC456789DEFG', 1);
 
 --
 -- Indexes for dumped tables
