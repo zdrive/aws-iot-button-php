@@ -12,6 +12,10 @@ Rev 1.0 (April 2018)
 - iot_button_click.php  
 - jquery.min.js  
   
+### MySQL Database Script
+  
+- mysql.sql  
+  
 ### How to Use  
   
 ### Setup MySQL Database
